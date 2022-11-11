@@ -4,6 +4,9 @@ import torchvision.models as models
 import torchvision.transforms as transforms
 from torch.autograd import Variable
 from PIL import Image
+import numpy as np
+from numpy.linalg import norm
+
 
 # Load the pretrained model
 model = models.resnet18(pretrained=True)
@@ -43,7 +46,13 @@ def get_vector(image_name):
     # 8. Return the feature vector
     return my_embedding.numpy()
 
-image_feature = get_vector(image_name="./test.jpg")
 
+# Read and Get Image 1
+image_feature = get_vector(image_name="./Official_portrait_of_Barack_Obama.jpg")
 
-print(image_feature)
+# Read and Get Image 2
+image_feature1 = get_vector(image_name="./President_Barack_Obama.jpg")
+
+# compute cosine similarity
+cosine = np.dot(image_feature,image_feature1)/(norm(image_feature)*norm(image_feature1))
+print("Cosine Similarity:", cosine)
